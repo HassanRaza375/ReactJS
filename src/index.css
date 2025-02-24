@@ -1,1 +1,12 @@
 @import "tailwindcss";
+@media screen and (max-width: 1199px) {
+  .cd-none {
+    display: none;
+  }
+  .bg-login {
+    background-image: url("../public/images/loginback.png");
+    width: 100% !important;
+    object-fit: cover;
+    background-repeat: no-repeat;
+  }
+}
