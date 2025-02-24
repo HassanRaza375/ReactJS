@@ -22,7 +22,7 @@ function App() {
                     <p className="font-bold text-[1rem] mb-[17px] text-white">
                       Sign in with email address
                     </p>
-                    <div className="flex gap-[11px] bg-[#261046] rounded-[10px] text-[#A4A4A4] p-[22px] items-center">
+                    <div className="flex gap-[11px] bg-[#261046] rounded-[10px] text-[#A4A4A4] px-[22px] py-[10px] items-center">
                       <img
                         src="/images/messageinput.png"
                         height="18"
@@ -33,7 +33,7 @@ function App() {
                       />
                       <input
                         type="text"
-                        className="w-[100%] focus:outline-0"
+                        className="w-[100%] focus:outline-0 h-[40px]"
                         placeholder="Yourname@gmail.com"
                       />
                     </div>
