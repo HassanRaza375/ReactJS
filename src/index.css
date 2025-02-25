@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@media screen and (max-width: 1199px) {
+@media screen and (max-width: 1399px) {
   .cd-none {
     display: none;
   }

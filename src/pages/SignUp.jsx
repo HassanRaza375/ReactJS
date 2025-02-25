@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const SignUp = () => {
   let name = useRef("");
   let email = useRef("");
   let password = useRef("");
+  const navigate = useNavigate();
   const [isshow, setshow] = useState(true);
+  useEffect(() => {
+    let iftoken = localStorage.getItem("token");
+    if (iftoken) {
+      navigate("/Home");
+    }
+  }, []);
   const SignUpHandler = async () => {
     const res = await axios.post("http://localhost:5000/api/auth/signup", {
       name: name.current.value,
@@ -13,12 +21,13 @@ const SignUp = () => {
       password: password.current.value,
     });
     alert(res.data.message);
-    console.log(res.data);
     if (res.data.message) {
       name.current.value = "";
       email.current.value = "";
       password.current.value = "";
+      navigate("/Home");
     }
+    localStorage.setItem("token", JSON.stringify(res.data.token));
   };
   return (
     <div className="bg-[#160430] h-[100vh]">
