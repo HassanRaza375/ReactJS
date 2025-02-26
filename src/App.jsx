@@ -1,5 +1,6 @@
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
+import TabularHome from "./pages/TabularHome";
 import AuthMiddleware from "./middleware/AuthMiddleware";
 import {
   BrowserRouter as Router,
@@ -21,6 +22,14 @@ const routes = (
         element={
           <AuthMiddleware>
             <Home />
+          </AuthMiddleware>
+        }
+      />
+      <Route
+        path="/TabularHome"
+        element={
+          <AuthMiddleware>
+            <TabularHome />
           </AuthMiddleware>
         }
       />

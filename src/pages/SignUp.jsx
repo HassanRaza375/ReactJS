@@ -8,6 +8,7 @@ const SignUp = () => {
   let password = useRef("");
   const navigate = useNavigate();
   const [isshow, setshow] = useState(true);
+  const [isLogin, setTypeLogin] = useState(false);
   useEffect(() => {
     let iftoken = localStorage.getItem("token");
     if (iftoken) {
@@ -15,6 +16,11 @@ const SignUp = () => {
     }
   }, []);
   const SignUpHandler = async () => {
+    if (isLogin) {
+      setTypeLogin(false);
+      return;
+    }
+
     const res = await axios.post("http://localhost:5000/api/auth/signup", {
       name: name.current.value,
       email: email.current.value,
@@ -25,9 +31,26 @@ const SignUp = () => {
       name.current.value = "";
       email.current.value = "";
       password.current.value = "";
+      localStorage.setItem("token", JSON.stringify(res.data.token));
       navigate("/Home");
     }
-    localStorage.setItem("token", JSON.stringify(res.data.token));
+  };
+  const LoginHandler = async (isselection) => {
+    if (isLogin) {
+      const res = await axios.post("http://localhost:5000/api/auth/login", {
+        email: email.current.value,
+        password: password.current.value,
+      });
+      alert(res.data.message);
+      if (res.data.message) {
+        email.current.value = "";
+        password.current.value = "";
+        localStorage.setItem("token", JSON.stringify(res.data.token));
+        navigate("/Home");
+      }
+    } else {
+      if (isselection) setTypeLogin(true);
+    }
   };
   return (
     <div className="bg-[#160430] h-[100vh]">
@@ -44,10 +67,12 @@ const SignUp = () => {
           <div className="md:w-6/12 sm:w-12/12 w-12/12 text-white bg-login">
             <div className="flex items-center flex-col justify-center h-[100vh] p-[20px]">
               <div className="w-full max-w-[460px]">
-                <h2 className="text-center font-bold text-[50px]">SIGN IN</h2>
+                <h2 className="text-center font-bold text-[50px]">
+                  {isLogin ? "Login" : "SIGN IN"}
+                </h2>
                 <div className="mt-[1rem]">
                   <p className="font-bold text-[1rem] mb-[17px] text-white">
-                    Sign in with email address
+                    {isLogin ? "Login" : "Sign"} in with email address
                   </p>
                   <div className="flex gap-[11px] bg-[#261046] rounded-[10px] text-[#A4A4A4] px-[22px] py-[10px] items-center">
                     <img
@@ -66,7 +91,11 @@ const SignUp = () => {
                     />
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="flex gap-[11px] width-[50%] bg-[#261046] rounded-[10px] text-[#A4A4A4] px-[22px] py-[10px] items-center mt-2">
+                    <div
+                      className={`${
+                        isLogin ? "hidden" : "w-[50%]"
+                      } flex gap-[11px]  bg-[#261046] rounded-[10px] text-[#A4A4A4] px-[22px] py-[10px] items-center mt-2`}
+                    >
                       <img
                         src="/images/user-icon.png"
                         height="30"
@@ -82,7 +111,11 @@ const SignUp = () => {
                         placeholder="Name"
                       />
                     </div>
-                    <div className="flex gap-[11px] width-[50%] bg-[#261046] rounded-[10px] text-[#A4A4A4] px-[22px] py-[10px] items-center mt-2">
+                    <div
+                      className={`${
+                        isLogin ? "w-[100%]" : "w-[50%]"
+                      } flex gap-[11px] bg-[#261046] rounded-[10px] text-[#A4A4A4] px-[22px] py-[10px] items-center mt-2`}
+                    >
                       <input
                         ref={password}
                         type={isshow ? "text" : "password"}
@@ -100,12 +133,20 @@ const SignUp = () => {
                       />
                     </div>
                   </div>
-                  <button
-                    className="cursor-pointer bg-gradient-to-r from-[#501794] to-[#3E70A1] p-[15px] w-[100%] rounded-[18px] mt-[22px] mb-[20px]"
-                    onClick={() => SignUpHandler()}
-                  >
-                    Sign up
-                  </button>
+                  <div className="flex items-center my-[20px] gap-2">
+                    <button
+                      className="cursor-pointer bg-gradient-to-r from-[#501794] to-[#3E70A1] p-[15px] w-[50%] rounded-[18px]"
+                      onClick={() => LoginHandler(true)}
+                    >
+                      Login
+                    </button>
+                    <button
+                      className="cursor-pointer bg-gradient-to-r from-[#501794] to-[#3E70A1] p-[15px] w-[50%] rounded-[18px]"
+                      onClick={() => SignUpHandler(true)}
+                    >
+                      Sign up
+                    </button>
+                  </div>
                 </div>
                 <div>
                   <span>Or continue with</span>
