@@ -19,9 +19,9 @@ const TabularHome = () => {
                     ? tabs.map((e) => {
                         return (
                           <span
-                            className={`text-[14px] cursor-pointer px-[10px] py-[10px] font-medium text-[#6E6893] ${
+                            className={`text-[14px] cursor-pointer px-[10px] relative bottom-[-1px] pt-[10px] pb-[8px] border-b-2 border-transparent font-medium text-[#6E6893] ${
                               e == selectedtabs
-                                ? "border-b-2 border-[#25213B] text-[#25213B]"
+                                ? "!border-[#25213B] text-[#25213B]"
                                 : ""
                             } `}
                             onClick={() => setSelectedTab(`${e}`)}
