@@ -122,17 +122,45 @@ const TabularHome = () => {
                                 className="text-[20px] border-[#6E6893]"
                               />
                             </td>
-                            <td className="px-[20px] py-[13px] text-[12px] font-semibold text-[#6E6893] text-start border-t-1 border-b-1 border-[#F4F2FF] bg-white">
-                              Justin Septimus
+                            <td className="px-[20px] py-[13px] text-start border-t-1 border-b-1 border-[#F4F2FF] bg-white">
+                              <h2 className="mb-0 text-[14px] font-medium text-[#25213B]">
+                                Justin Septimus
+                              </h2>
+                              <p className="mb-0 text-[14px] font-normal text-[#6E6893] mt-[7px]">
+                                example@email.com
+                              </p>
                             </td>
-                            <td className="px-[20px] py-[13px] text-[12px] font-semibold text-[#6E6893] text-start border-t-1 border-b-1 border-[#F4F2FF] bg-white">
-                              Last login: 14/APR/2020
+                            <td className="px-[20px] py-[13px] text-start border-t-1 border-b-1 border-[#F4F2FF] bg-white">
+                              <span className="px-[5px] py-[2px] gap-[4px] font-medium text-[12px] text-[#4A4AFF] inline-flex items-center bg-[#E6E6F2] rounded-[10px]">
+                                <span class="relative flex size-[6px]">
+                                  <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4A4AFF] opacity-75"></span>
+                                  <span class="relative inline-flex size-[6px] rounded-full bg-[#4A4AFF]"></span>
+                                </span>
+                                Active
+                              </span>
+                              <p className="text-[#6E6893] text-[12px] mt-[7px]">
+                                Last login: 14/APR/2020
+                              </p>
                             </td>
-                            <td className="px-[20px] py-[13px] text-[12px] font-semibold text-[#6E6893] text-start border-t-1 border-b-1 border-[#F4F2FF] bg-white">
-                              Paid on 15/APR/2020
+                            <td className="px-[20px] py-[13px] text-start border-t-1 border-b-1 border-[#F4F2FF] bg-white">
+                              <span className="px-[5px] py-[2px] gap-[4px] font-medium text-[12px] text-[##007F00] inline-flex items-center bg-[#CDFFCD] rounded-[10px]">
+                                <span class="relative flex size-[6px]">
+                                  <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#007F00] opacity-75"></span>
+                                  <span class="relative inline-flex size-[6px] rounded-full bg-[#007F00]"></span>
+                                </span>
+                                Paid
+                              </span>
+                              <p className="text-[#25213B] text-[12px] font-medium">
+                                Paid on 15/APR/2020
+                              </p>
                             </td>
-                            <td className="px-[20px] py-[13px] text-[12px] font-semibold text-[#6E6893] text-start border-t-1 border-b-1 border-[#F4F2FF] bg-white">
-                              $200
+                            <td className="px-[20px] py-[13px] text-end border-t-1 border-b-1 border-[#F4F2FF] bg-white">
+                              <h2 className="text-[14px] font-medium text-[#25213B]">
+                                $200
+                              </h2>
+                              <p className="text-[12px] font-normal text-[#6E6893]">
+                                USD
+                              </p>
                             </td>
                             <td className="px-[20px] py-[13px] text-[20px] cursor-pointer font-semibold text-[#6E6893] text-start border-t-1 border-b-1 border-[#F4F2FF] bg-white">
                               <HiOutlineDotsVertical />
