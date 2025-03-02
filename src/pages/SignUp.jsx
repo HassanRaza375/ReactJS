@@ -10,7 +10,7 @@ const SignUp = () => {
   const [isshow, setshow] = useState(true);
   const [isLogin, setTypeLogin] = useState(false);
   useEffect(() => {
-    let iftoken = localStorage.getItem("token");
+    let iftoken = JSON.parse(localStorage.getItem("token"));
     if (iftoken) {
       navigate("/Home");
     }
