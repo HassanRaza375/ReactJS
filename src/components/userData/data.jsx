@@ -64,16 +64,16 @@ const data = ({ Users }) => {
                     }`}
                   >
                     <ul className="absolute top-0 w-[154px] right-0 bg-white rounded-[6px] shadow-sm p-[10px] z-10">
-                      <li className="p-[5px] font-normal text-[14px] text-[#25213B]">
+                      <li className="p-[5px] font-normal text-[14px] text-[#25213B] hover:bg-sky-700 hover:text-white rounded-[6px]">
                         Edit
                       </li>
-                      <li className="p-[5px] font-normal text-[14px] text-[#25213B]">
+                      <li className="p-[5px] font-normal text-[14px] text-[#25213B] hover:bg-sky-700 hover:text-white rounded-[6px]">
                         View Profile
                       </li>
-                      <li className="p-[5px] font-normal text-[14px] text-[#007F00]">
+                      <li className="p-[5px] font-normal text-[14px] text-[#007F00] hover:bg-lime-500 hover:text-white rounded-[6px]">
                         Activate User
                       </li>
-                      <li className="p-[5px] font-normal text-[14px] text-[#D30000]">
+                      <li className="p-[5px] font-normal text-[14px] text-[#D30000] hover:bg-red-500 hover:text-white rounded-[6px]">
                         Delete
                       </li>
                     </ul>
@@ -89,7 +89,7 @@ const data = ({ Users }) => {
         })
       ) : (
         <tr>
-          <td colSpan="100%">No user Data</td>
+          <td colSpan="100%" className="text-center p-[10px]">No user Data</td>
         </tr>
       )}
     </>
