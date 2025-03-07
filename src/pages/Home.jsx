@@ -5,7 +5,13 @@ const Home = () => {
   const [Users, setUser] = useState([]);
   useEffect(() => {
     const getAllUserHandler = async () => {
-      const res = await axios.get("http://localhost:5000/api/auth/all");
+       let token = JSON.parse(localStorage.getItem('token'))
+       console.log(token)
+      const res = await axios.get("http://localhost:5000/api/auth/all",{
+        headers: {
+          Authorization: `Bearer ${token}`, // Ensure "Bearer " prefix
+        },
+      });
       if (res.data.length > 0) {
         setUser([...res.data]);
       }

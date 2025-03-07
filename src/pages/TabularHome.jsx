@@ -5,14 +5,21 @@ import DataUserBody from "../components/userData/data";
 import FooterTable from "../components/userData/footerFilter";
 import TableMainFilter from "../components/userData/tableMainFilter";
 import TableTabs from "../components/userData/tableTabs";
+import { JSON } from "mysql/lib/protocol/constants/types";
 const TabularHome = () => {
   const [Users, setUser] = useState([]);
   const [tabs, setTabs] = useState(["All", "Paid", "Unpaid", "Overdue"]);
   const [selectedtabs, setSelectedTab] = useState("All");
   const copydata = useRef();
   useEffect(() => {
+    let token = JSON.parse(localStorage.getItem('token'))
+    console.log(token)
     const getAllUserHandler = async () => {
-      const res = await axios.get("http://localhost:5000/api/auth/all");
+      const res = await axios.get("http://localhost:5000/api/auth/all", {
+        headers: {
+          Authorization: `Bearer ${token}`, // Ensure "Bearer " prefix
+        },
+      });
       if (res.data.length > 0) {
         setUser([...res.data]);
         copydata.value = [...res.data];
