@@ -1,6 +1,7 @@
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import TabularHome from "./pages/TabularHome";
+import EditUser from "./components/common/EditUser";
 import AuthMiddleware from "./middleware/AuthMiddleware";
 import {
   BrowserRouter as Router,
@@ -17,6 +18,14 @@ const routes = (
       <Route path="/SignUp" element={<SignUp />} />
 
       {/* Protected Route */}
+      <Route
+        path="/EditUser/:id"
+        element={
+          <AuthMiddleware>
+            <EditUser />
+          </AuthMiddleware>
+        }
+      />
       <Route
         path="/Home"
         element={

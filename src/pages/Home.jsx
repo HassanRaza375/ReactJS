@@ -1,19 +1,28 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [Users, setUser] = useState([]);
   useEffect(() => {
     const getAllUserHandler = async () => {
-       let token = JSON.parse(localStorage.getItem('token'))
-       console.log(token)
-      const res = await axios.get("http://localhost:5000/api/auth/all",{
-        headers: {
-          Authorization: `Bearer ${token}`, // Ensure "Bearer " prefix
-        },
-      });
-      if (res.data.length > 0) {
-        setUser([...res.data]);
+      try {
+        let token = JSON.parse(localStorage.getItem("token"));
+        console.log(token);
+        const res = await axios.get("http://localhost:5000/api/auth/all", {
+          headers: {
+            Authorization: `Bearer ${token}`, // Ensure "Bearer " prefix
+          },
+        });
+        if (res.data.length > 0) {
+          setUser([...res.data]);
+        }
+      } catch (err) {
+        if (err.response.data.message === "Token expired") {
+          localStorage.removeItem("token");
+          navigate("/SignUp");
+        }
       }
     };
     getAllUserHandler();

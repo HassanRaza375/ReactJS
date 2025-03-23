@@ -2,7 +2,7 @@ import React from "react";
 import { FaChevronRight } from "react-icons/fa6";
 import { FaChevronLeft } from "react-icons/fa6";
 import { IoMdArrowDropdown } from "react-icons/io";
-const footerFilter = () => {
+const footerFilter = ({ data }) => {
   return (
     <>
       <tr>
@@ -15,7 +15,7 @@ const footerFilter = () => {
               <span className="flex items-center gap-[8px] cursor-pointer">
                 Rows per page: 10 <IoMdArrowDropdown />
               </span>
-              <span>1-10 of 276</span>
+              <span>1-10 of {data.length}</span>
               <span className="flex gap-[50px] items-center">
                 <FaChevronLeft className="cursor-pointer" />
                 <FaChevronRight className="cursor-pointer" />

@@ -1,6 +1,10 @@
 import React from "react";
 
-const tableTabs = ({ tabs, selectedtabs, setSelectedTab }) => {
+const tableTabs = ({ tabs, selectedtab, setSelectedTab, filter }) => {
+  const handleSearch = (filterValue) => {
+    setSelectedTab(filterValue.Name);
+    filter(filterValue.value);
+  };
   return (
     <>
       <div className="w-12/12">
@@ -14,14 +18,14 @@ const tableTabs = ({ tabs, selectedtabs, setSelectedTab }) => {
                   return (
                     <span
                       className={`text-[14px] cursor-pointer px-[10px] relative bottom-[-1px] pt-[10px] pb-[8px] border-b-2 border-transparent font-medium text-[#6E6893] ${
-                        e == selectedtabs
+                        e.Name == selectedtab
                           ? "!border-[#25213B] text-[#25213B]"
                           : ""
                       } `}
-                      onClick={() => setSelectedTab(`${e}`)}
-                      key={e}
+                      onClick={() => handleSearch(e)}
+                      key={e.Name}
                     >
-                      {e}
+                      {e.Name}
                     </span>
                   );
                 })

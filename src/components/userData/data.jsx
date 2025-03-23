@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { IoMdCloseCircle } from "react-icons/io";
 
-const data = ({ Users }) => {
+const data = ({ Users, DeleteUser, ActiveUser }) => {
   const [showactiveDropdown, setActiveDropdown] = useState(null);
   const toggleDropdown = (id) => {
     setActiveDropdown((prev) => (prev === id ? null : id));
@@ -28,24 +28,50 @@ const data = ({ Users }) => {
                 </p>
               </td>
               <td className="px-[20px] py-[13px] text-start border-t-1 border-b-1 border-[#F4F2FF] bg-white">
-                <span className="px-[5px] py-[2px] gap-[4px] font-medium text-[12px] text-[#4A4AFF] inline-flex items-center bg-[#E6E6F2] rounded-[10px]">
-                  <span className="relative flex size-[6px]">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4A4AFF] opacity-75"></span>
-                    <span className="relative inline-flex size-[6px] rounded-full bg-[#4A4AFF]"></span>
-                  </span>
-                  Active
+                <span
+                  className={`px-[5px] py-[2px] gap-[4px] font-medium text-[12px] ${
+                    e.activeUser ? "text-[#4A4AFF]" : "text-[#6E6893]"
+                  } inline-flex items-center bg-[#E6E6F2] rounded-[10px]`}
+                >
+                  {e.activeUser ? (
+                    <span className="relative flex size-[6px]">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4A4AFF] opacity-75"></span>
+                      <span className="relative inline-flex size-[6px] rounded-full bg-[#4A4AFF]"></span>
+                    </span>
+                  ) : (
+                    <span className="relative flex size-[6px]">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#6E6893] opacity-75"></span>
+                      <span className="relative inline-flex size-[6px] rounded-full bg-[#6E6893]"></span>
+                    </span>
+                  )}
+
+                  {e.activeUser ? "Active" : "Inactive"}
                 </span>
                 <p className="text-[#6E6893] text-[12px] mt-[7px]">
                   Last login: 14/APR/2020
                 </p>
               </td>
               <td className="px-[20px] py-[13px] text-start border-t-1 border-b-1 border-[#F4F2FF] bg-white">
-                <span className="px-[5px] py-[2px] gap-[4px] font-medium text-[12px] text-[##007F00] inline-flex items-center bg-[#CDFFCD] rounded-[10px]">
-                  <span className="relative flex size-[6px]">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#007F00] opacity-75"></span>
-                    <span className="relative inline-flex size-[6px] rounded-full bg-[#007F00]"></span>
-                  </span>
-                  Paid
+                <span
+                  className={`px-[5px] py-[2px] gap-[4px] font-medium text-[12px] ${
+                    e.paymentStatus === "paid"
+                      ? "bg-[#CDFFCD] text-[#007F00]"
+                      : "bg-[#FFECCC] text-[#965E00]"
+                  }  inline-flex items-center rounded-[10px]`}
+                >
+                  {e.paymentStatus === "paid" ? (
+                    <span className="relative flex size-[6px]">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#007F00] opacity-75"></span>
+                      <span className="relative inline-flex size-[6px] rounded-full bg-[#007F00]"></span>
+                    </span>
+                  ) : (
+                    <span className="relative flex size-[6px]">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#CE8500] opacity-75"></span>
+                      <span className="relative inline-flex size-[6px] rounded-full bg-[#CE8500]"></span>
+                    </span>
+                  )}
+
+                  {e.paymentStatus}
                 </span>
                 <p className="text-[#25213B] text-[12px] font-medium">
                   Paid on 15/APR/2020
@@ -70,10 +96,25 @@ const data = ({ Users }) => {
                       <li className="p-[5px] font-normal text-[14px] text-[#25213B] hover:bg-sky-700 hover:text-white rounded-[6px]">
                         View Profile
                       </li>
-                      <li className="p-[5px] font-normal text-[14px] text-[#007F00] hover:bg-lime-500 hover:text-white rounded-[6px]">
-                        Activate User
-                      </li>
-                      <li className="p-[5px] font-normal text-[14px] text-[#D30000] hover:bg-red-500 hover:text-white rounded-[6px]">
+                      {e.activeUser ? (
+                        <li
+                          className="p-[5px] font-normal text-[14px] text-rose-500 hover:bg-rose-500 hover:text-white rounded-[6px]"
+                          onClick={() => ActiveUser(e.id, false)}
+                        >
+                          In-activate User
+                        </li>
+                      ) : (
+                        <li
+                          className="p-[5px] font-normal text-[14px] text-[#007F00] hover:bg-lime-500 hover:text-white rounded-[6px]"
+                          onClick={() => ActiveUser(e.id, true)}
+                        >
+                          Activate User
+                        </li>
+                      )}
+                      <li
+                        className="p-[5px] font-normal text-[14px] text-[#D30000] hover:bg-red-500 hover:text-white rounded-[6px]"
+                        onClick={() => DeleteUser(e.id)}
+                      >
                         Delete
                       </li>
                     </ul>
@@ -89,7 +130,9 @@ const data = ({ Users }) => {
         })
       ) : (
         <tr>
-          <td colSpan="100%" className="text-center p-[10px]">No user Data</td>
+          <td colSpan="100%" className="text-center p-[10px]">
+            No user Data
+          </td>
         </tr>
       )}
     </>

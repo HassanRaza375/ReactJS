@@ -5,16 +5,25 @@ import DataUserBody from "../components/userData/data";
 import FooterTable from "../components/userData/footerFilter";
 import TableMainFilter from "../components/userData/tableMainFilter";
 import TableTabs from "../components/userData/tableTabs";
-import { JSON } from "mysql/lib/protocol/constants/types";
+import { useNavigate } from "react-router-dom";
 const TabularHome = () => {
   const [Users, setUser] = useState([]);
-  const [tabs, setTabs] = useState(["All", "Paid", "Unpaid", "Overdue"]);
+  const [tabs, setTabs] = useState([
+    { Name: "All", value: "All" },
+    { Name: "Paid", value: "paid" },
+    { Name: "Unpaid", value: "unpaid" },
+    { Name: "Inactive", value: false },
+    { Name: "Acitve", value: true },
+  ]);
   const [selectedtabs, setSelectedTab] = useState("All");
   const copydata = useRef();
+  const navigate = useNavigate();
+  let token = JSON.parse(localStorage.getItem("token"));
   useEffect(() => {
-    let token = JSON.parse(localStorage.getItem('token'))
-    console.log(token)
-    const getAllUserHandler = async () => {
+    getAllUserHandler();
+  }, []);
+  const getAllUserHandler = async () => {
+    try {
       const res = await axios.get("http://localhost:5000/api/auth/all", {
         headers: {
           Authorization: `Bearer ${token}`, // Ensure "Bearer " prefix
@@ -24,9 +33,26 @@ const TabularHome = () => {
         setUser([...res.data]);
         copydata.value = [...res.data];
       }
-    };
-    getAllUserHandler();
-  }, []);
+    } catch (err) {
+      if (err.response.data.message === "Token expired") {
+        localStorage.removeItem("token");
+        navigate("/SignUp");
+      }
+    }
+  };
+  const mainTabsSearch = (searchString) => {
+    if (searchString === "All") {
+      setUser(copydata.value);
+      return;
+    }
+    const filteredData = copydata.value.filter((e) => {
+      return typeof searchString === "boolean"
+        ? e.activeUser === searchString
+        : e.paymentStatus == searchString;
+    });
+
+    setUser(filteredData);
+  };
   const SearchUserData = (searchString) => {
     if (searchString === "") {
       setUser(copydata.value);
@@ -35,12 +61,41 @@ const TabularHome = () => {
 
     const filteredData = Users.filter((e) => {
       return (
-        (e.name && e.name.toLowerCase().includes(searchString.toLowerCase())) ||
-        (e.email && e.email.toLowerCase().includes(searchString.toLowerCase()))
+        e.name.toLowerCase().includes(searchString.toLowerCase()) ||
+        e.email.toLowerCase().includes(searchString.toLowerCase())
       );
     });
 
     setUser(filteredData);
+  };
+  const DeleteUser = async (id) => {
+    try {
+      const res = await axios.delete(`http://localhost:5000/api/auth/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Ensure "Bearer " prefix
+        },
+      });
+      if (res.data.message) {
+        alert(res.data.message);
+        getAllUserHandler();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const ActiveUser = async (id, bool) => {
+    try {
+      const res = await axios.put(
+        `http://localhost:5000/api/auth/activateUser/${id}`,
+        { useractive: bool }
+      );
+      if (res.data.message) {
+        alert(res.data.message);
+        getAllUserHandler();
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <>
@@ -49,8 +104,9 @@ const TabularHome = () => {
           <div className="flex mx-[6px] flex-wrap">
             <TableTabs
               tabs={tabs}
-              selectedtabs={selectedtabs}
+              selectedtab={selectedtabs}
               setSelectedTab={setSelectedTab}
+              filter={mainTabsSearch}
             />
             <div className="w-12/12 mt-[20px]">
               <div className="bg-[#FFFFFF] rounded-[6px] shadow-[0px_0px_5px_0px_rgba(0,0,0,0.25)]">
@@ -85,10 +141,14 @@ const TabularHome = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <DataUserBody Users={Users} />
+                      <DataUserBody
+                        DeleteUser={DeleteUser}
+                        ActiveUser={ActiveUser}
+                        Users={Users}
+                      />
                     </tbody>
                     <tfoot>
-                      <FooterTable />
+                      <FooterTable data={Users} />
                     </tfoot>
                   </table>
                 </div>
